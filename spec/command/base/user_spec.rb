@@ -38,6 +38,10 @@ describe get_command(:get_user_encrypted_password, 'foo') do
   it { should eq "getent shadow foo | cut -f 2 -d ':'" }
 end
 
+describe get_command(:check_user_password_not_disabled, 'foo') do
+  it { should eq "getent shadow foo | grep -v '^[^:]*:.\?:'" }
+end
+
 describe get_command(:check_user_has_login_shell, 'foo', '/bin/sh') do
   it { should eq "getent passwd foo | cut -f 7 -d ':' | grep -w -- /bin/sh" }
 end

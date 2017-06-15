@@ -90,5 +90,11 @@ class Specinfra::Command::Base::User < Specinfra::Command::Base
     def get_encrypted_password(user)
       "getent shadow #{escape(user)} | cut -f 2 -d ':'"
     end
+    
+    def check_password_not_disabled(user)
+      # inspiration: https://serverfault.com/a/240966/52785
+      # NOTE: this succeeds if the user doesn't exist, so it should be improved
+      "getent shadow #{escape(user)} | grep -v '^[^:]*:.\?:'"
+    end
   end
 end
